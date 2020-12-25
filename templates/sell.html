@@ -1,0 +1,95 @@
+
+
+{% load static %}
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>BOOKBANK</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'form/view.css' %}" media="all">
+        <script type="text/javascript" src="{% static 'form/jquery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'form/view.js' %}"></script>
+        <script>
+    function sendTitle(){
+    var title = document.getElementById('element_1').value
+    $.ajax({
+        url: 'sell/',
+        data : {
+            'title': title,
+        },
+        success: function (data) {
+            document.getElementById('avg').innerHTML = data["avg"];
+            document.getElementById('min').innerHTML = data["min"];
+            document.getElementById('max').innerHTML = data["max"];
+            document.getElementById('plotImage').innerHTML= data["imagePath"];
+            console.log(data["imagePath"])
+        }
+    });
+}
+
+</script>
+    </head>
+    <body id="main_body" >
+        <div id="form_container">
+            <h1>SELL BOOKS</h1>
+            <form  class="appnitro"  method="POST" action="{% url 'sell' %}">
+                {% csrf_token %}
+                <div class="form_description">
+                    <h2>SELL BOOKS</h2>
+                    <p>Fill in the form below to post a classifield.</p>
+                </div>
+                <ul >
+                    <li id="li_1" >
+                        <label class="description" for="element_1">Title </label>
+                        <div>
+                            <input id="element_1" name="title" class="element text medium" type="text" maxlength="80" value=""/>
+                        </div>
+                        <p class="guidelines" id="guide_1"><small>Enter book title</small></p>
+                    </li>
+                    <li id="li_2" >
+                        <label class="description" for="element_2">Author </label>
+                        <div>
+                            <input id="element_2" name="author" class="element text medium" type="text" maxlength="50" value=""/>
+                        </div>
+                        <p class="guidelines" id="guide_2"><small>Enter Author Name</small></p>
+                    </li>
+                    <li id="li_3" >
+                        <label class="description" for="element_3">Description </label>
+                        <div>
+                            <textarea id="element_3" name="desc" class="element textarea medium"></textarea>
+                        </div>
+                        <p class="guidelines" id="guide_3"><small>Enter description for the book</small></p>
+                    </li>
+                    <li id="li_4" >
+                        <label class="description" for="element_4">Price </label>
+                        <div>
+                            <input id="element_4" name="price" class="element text medium" type="text" maxlength="10" value=""/>
+
+                            <!-- <input id="checkPrice" class="button_text" type="button" value="Check Price" onclick="sendTitle()"/> --->
+                                  <p id="avg"></p>
+                                  <p id="min"></p>
+                                  <p id="max"></p>
+                                  <div id="plotImage" >
+
+
+                                  </div>
+                        </div>
+                    </li>
+                    <li id="li_4" >
+                        <label class="description" for="element_3">Upload Image </label>
+                        <div>
+                            <input type="file" name="myfile" accept="image/*"  >
+                        </div>
+                        <p class="guidelines" id="guide_4"><small>Upload Book Image</small></p>
+                    </li>
+
+                    <li class="buttons">
+                        <input id="saveForm" class="button_text" type="submit" name="submit" value="Submit" />
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <img id="bottom" src="{% static 'form/bottom.png' %} " alt="">
+    </body>
+
+</html>
+
